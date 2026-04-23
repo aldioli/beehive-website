@@ -566,9 +566,80 @@
     /* ============================
        RESPONSIVE
     ============================ */
+    /* Nav CTA always visible */
+    .nav-cta-btn {
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: #000 !important; font-weight: 700; font-size: .9rem;
+      padding: 10px 22px; border-radius: 30px;
+      text-decoration: none; white-space: nowrap;
+      box-shadow: 0 4px 18px rgba(245,166,35,.35);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .nav-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(245,166,35,.5); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      background: none; border: none;
+      color: var(--white); font-size: 1.5rem;
+      cursor: pointer; padding: 4px 8px;
+    }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none; flex-direction: column;
+      position: fixed; top: 70px; left: 0; right: 0;
+      background: rgba(13,13,26,.97);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(245,166,35,.15);
+      padding: 16px 24px 24px;
+      gap: 4px; z-index: 99;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: var(--muted); text-decoration: none;
+      font-weight: 600; font-size: 1rem;
+      padding: 12px 8px;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      transition: color .2s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-menu .mob-cta {
+      margin-top: 12px;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: #000 !important; text-align: center;
+      border-radius: 30px; padding: 14px;
+      border-bottom: none; font-weight: 700;
+    }
+
+    /* Contact section */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .contact-card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      display: flex; flex-direction: column; align-items: flex-start; gap: 10px;
+      text-decoration: none; color: var(--white);
+      transition: transform .3s, border-color .3s, box-shadow .3s;
+    }
+    .contact-card:hover { transform: translateY(-5px); border-color: rgba(245,166,35,.3); box-shadow: var(--shadow); }
+    .contact-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+    }
+    .contact-label { font-size: .78rem; color: var(--muted); font-weight: 600; }
+    .contact-value { font-size: .95rem; font-weight: 700; direction: ltr; }
+
     @media (max-width: 900px) {
       nav { padding: 16px 24px; }
       .nav-links { display: none; }
+      .hamburger { display: block; }
       .hero { flex-direction: column; padding: 100px 24px 60px; text-align: center; }
       .hero-desc { margin: 0 auto 40px; }
       .hero-btns { justify-content: center; }
@@ -598,9 +669,18 @@
     <li><a href="#features">المميزات</a></li>
     <li><a href="#how">كيف يعمل</a></li>
     <li><a href="#screens">الشاشات</a></li>
-    <li><a href="#download" class="nav-cta">حمّل التطبيق</a></li>
+    <li><a href="#contact">تواصل معنا</a></li>
   </ul>
+  <a href="#download" class="nav-cta-btn">⬇ حمّل التطبيق</a>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="القائمة">☰</button>
 </nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#features" onclick="toggleMenu()">المميزات</a>
+  <a href="#how" onclick="toggleMenu()">كيف يعمل</a>
+  <a href="#screens" onclick="toggleMenu()">الشاشات</a>
+  <a href="#contact" onclick="toggleMenu()">تواصل معنا</a>
+  <a href="#download" class="mob-cta" onclick="toggleMenu()">⬇ حمّل التطبيق</a>
+</div>
 
 <!-- ========================
      HERO
@@ -889,6 +969,57 @@
 </section>
 
 <!-- ========================
+     CONTACT
+======================== -->
+<section class="pad" id="contact" style="background: rgba(255,255,255,.015);">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-tag">📞 تواصل معنا</div>
+      <h2 class="section-title">الدعم <span class="gold">الفني</span></h2>
+      <p class="section-subtitle">فريقنا جاهز لمساعدتك على مدار الساعة — تواصل عبر أي قناة تناسبك</p>
+    </div>
+    <div class="contact-grid fade-in">
+
+      <!-- WhatsApp -->
+      <a href="https://wa.me/966537759626" target="_blank" class="contact-card">
+        <div class="contact-icon" style="background:rgba(37,211,102,.12);">💬</div>
+        <div class="contact-label">WhatsApp</div>
+        <div class="contact-value">+966 537 759 626</div>
+      </a>
+
+      <!-- Phone 1 -->
+      <a href="tel:+966537759626" class="contact-card">
+        <div class="contact-icon" style="background:rgba(245,166,35,.12);">📞</div>
+        <div class="contact-label">هاتف — السعودية</div>
+        <div class="contact-value">+966 537 759 626</div>
+      </a>
+
+      <!-- Phone 2 -->
+      <a href="tel:+967777182233" class="contact-card">
+        <div class="contact-icon" style="background:rgba(245,166,35,.12);">📞</div>
+        <div class="contact-label">هاتف — اليمن</div>
+        <div class="contact-value">+967 777 182 233</div>
+      </a>
+
+      <!-- Email -->
+      <a href="mailto:h@aldioli.us" class="contact-card">
+        <div class="contact-icon" style="background:rgba(100,180,255,.12);">✉️</div>
+        <div class="contact-label">البريد الإلكتروني</div>
+        <div class="contact-value">h@aldioli.us</div>
+      </a>
+
+      <!-- Telegram Bot -->
+      <a href="https://t.me/Alawlaqi_AI_bot" target="_blank" class="contact-card">
+        <div class="contact-icon" style="background:rgba(0,136,204,.12);">✈️</div>
+        <div class="contact-label">بوت Telegram الذكي</div>
+        <div class="contact-value">@Alawlaqi_AI_bot</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========================
      FOOTER
 ======================== -->
 <footer>
@@ -902,6 +1033,7 @@
         <li><a href="#features">المميزات</a></li>
         <li><a href="#how">كيف يعمل</a></li>
         <li><a href="#screens">الشاشات</a></li>
+        <li><a href="#contact">تواصل</a></li>
         <li><a href="#download">تحميل</a></li>
       </ul>
       <p class="footer-copy">© ٢٠٢٦ سوق الحرفيين · BeeHive. جميع الحقوق محفوظة.</p>
@@ -913,6 +1045,18 @@
      JS
 ======================== -->
 <script>
+  // Mobile menu
+  function toggleMenu() {
+    document.getElementById('mobile-menu').classList.toggle('open');
+  }
+  // Close on outside click
+  document.addEventListener('click', e => {
+    const menu = document.getElementById('mobile-menu');
+    if (!e.target.closest('nav') && !e.target.closest('.mobile-menu')) {
+      menu.classList.remove('open');
+    }
+  });
+
   // Tab switch
   function switchTab(tab, btn) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
