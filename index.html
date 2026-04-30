@@ -9,446 +9,375 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet"/>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
     :root{
-      --blue:#1976D2;--blue2:#1565C0;--blue-light:#E3F2FD;
-      --green:#43A047;--green2:#2E7D32;--green-light:#E8F5E9;
-      --yellow:#FFD600;--yellow2:#F9A825;
-      --red:#E53935;
-      --dark:#0D1B2A;--dark2:#1A2B3C;
-      --text:#1A2B3C;--text2:#4A5568;--muted:#8896A5;
-      --white:#FFFFFF;--bg:#F4F7FF;--bg2:#EEF2FF;
-      --card:#FFFFFF;
-      --radius:20px;--radius-sm:12px;
-      --shadow:0 4px 24px rgba(25,118,210,.1);
-      --shadow-lg:0 12px 50px rgba(25,118,210,.18);
+      --blue:#1565C0;--blue2:#1976D2;--blue3:#42A5F5;--blue-l:#E3F2FD;
+      --green:#2E7D32;--green2:#43A047;--green3:#66BB6A;--green-l:#E8F5E9;
+      --yellow:#F9A825;--yellow2:#FFD600;
+      --red:#C62828;
+      --dark:#0A1628;--text:#1A2B3C;--text2:#4A5568;--muted:#8896A5;
+      --white:#fff;--bg:#F5F7FF;--bg2:#EEF2FF;
+      --card:#fff;
+      --r:20px;
     }
-
     html{scroll-behavior:smooth}
     body{font-family:'Cairo',sans-serif;background:var(--white);color:var(--text);overflow-x:hidden}
 
-    /* ===== SCROLL REVEAL ===== */
-    [data-sr]{opacity:0;transition:opacity .75s cubic-bezier(.4,0,.2,1),transform .75s cubic-bezier(.4,0,.2,1)}
-    [data-sr="up"]{transform:translateY(55px)}
-    [data-sr="left"]{transform:translateX(-65px)}
-    [data-sr="right"]{transform:translateX(65px)}
-    [data-sr="scale"]{transform:scale(.88)}
-    [data-sr].sr-ok{opacity:1;transform:none}
+    /* ── SCROLL REVEAL ── */
+    [data-sr]{opacity:0;transition:opacity .8s cubic-bezier(.4,0,.2,1),transform .8s cubic-bezier(.4,0,.2,1)}
+    [data-sr="up"]{transform:translateY(60px)}
+    [data-sr="left"]{transform:translateX(-70px)}
+    [data-sr="right"]{transform:translateX(70px)}
+    [data-sr="scale"]{transform:scale(.86)}
+    [data-sr].on{opacity:1;transform:none}
 
-    /* ===== NAV ===== */
+    /* ── NAV ── */
     nav{
-      position:fixed;top:0;left:0;right:0;z-index:300;
+      position:fixed;top:0;left:0;right:0;z-index:500;
       display:flex;align-items:center;justify-content:space-between;
       padding:14px 64px;
-      background:rgba(255,255,255,0);
-      backdrop-filter:blur(0);
-      border-bottom:1px solid transparent;
-      transition:all .4s;
+      transition:all .4s ease;
     }
     nav.scrolled{
       background:rgba(255,255,255,.96);
       backdrop-filter:blur(20px);
-      border-bottom-color:rgba(25,118,210,.1);
-      box-shadow:0 2px 20px rgba(25,118,210,.08);
+      box-shadow:0 2px 24px rgba(21,101,192,.1);
+      border-bottom:1px solid rgba(21,101,192,.08);
     }
-    .nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--dark)}
-    .nav-brand img{width:42px;height:42px;object-fit:contain;transition:transform .3s}
-    nav.scrolled .nav-brand img{transform:scale(.92)}
-    .nav-brand-text{font-size:1.25rem;font-weight:900}
-    .nav-brand-text span{color:var(--blue)}
-    .nav-links{display:flex;gap:34px;list-style:none}
+    .nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .nav-brand img{width:42px;height:42px;object-fit:contain;transition:transform .35s}
+    .nav-brand:hover img{transform:rotate(10deg) scale(1.08)}
+    .nav-brand-name{font-size:1.2rem;font-weight:900;color:var(--dark)}
+    .nav-brand-name span{color:var(--blue2)}
+    .nav-links{display:flex;gap:32px;list-style:none}
     .nav-links a{
-      color:var(--text2);text-decoration:none;font-weight:600;font-size:.93rem;
-      transition:color .2s;position:relative;
+      color:var(--text2);text-decoration:none;font-weight:600;font-size:.92rem;
+      position:relative;transition:color .2s;padding:4px 0;
     }
-    .nav-links a::after{content:'';position:absolute;bottom:-4px;right:0;left:0;height:2.5px;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:2px;transform:scaleX(0);transition:transform .25s}
+    .nav-links a::after{content:'';position:absolute;bottom:0;right:0;left:0;height:2px;background:linear-gradient(90deg,var(--blue2),var(--green2));border-radius:2px;transform:scaleX(0);transform-origin:right;transition:transform .28s}
     .nav-links a:hover{color:var(--blue)}
     .nav-links a:hover::after{transform:scaleX(1)}
-    .nav-btn{
+    .nav-dl{
+      display:inline-flex;align-items:center;gap:8px;
       background:linear-gradient(135deg,var(--blue),var(--blue2));
-      color:#fff;font-weight:700;font-size:.9rem;
+      color:#fff;font-weight:700;font-size:.88rem;
       padding:11px 26px;border-radius:50px;text-decoration:none;
-      box-shadow:0 4px 18px rgba(25,118,210,.35);
+      box-shadow:0 4px 20px rgba(21,101,192,.38);
       transition:transform .2s,box-shadow .2s;
     }
-    .nav-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(25,118,210,.5)}
-    .hamburger{display:none;background:none;border:none;color:var(--dark);font-size:1.5rem;cursor:pointer;padding:4px 8px}
+    .nav-dl:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(21,101,192,.52)}
+    .hamburger{display:none;background:none;border:none;color:var(--dark);font-size:1.5rem;cursor:pointer}
     .mob-menu{
       display:none;flex-direction:column;
       position:fixed;top:70px;left:0;right:0;
       background:rgba(255,255,255,.98);backdrop-filter:blur(20px);
-      border-bottom:1px solid rgba(25,118,210,.1);
-      padding:16px 24px 24px;gap:4px;z-index:299;
+      border-bottom:1px solid rgba(21,101,192,.1);
+      padding:16px 24px 24px;gap:2px;z-index:499;
       box-shadow:0 8px 30px rgba(0,0,0,.08);
     }
     .mob-menu.open{display:flex}
     .mob-menu a{color:var(--text2);text-decoration:none;font-weight:600;font-size:1rem;padding:12px 8px;border-bottom:1px solid rgba(0,0,0,.05);transition:color .2s}
     .mob-menu a:hover{color:var(--blue)}
-    .mob-cta-link{margin-top:10px;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff!important;text-align:center;border-radius:30px;padding:14px;border-bottom:none!important;font-weight:700}
+    .mob-dl{margin-top:12px;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff!important;text-align:center;border-radius:30px;padding:14px;border-bottom:none!important;font-weight:700}
 
-    /* ===== HERO ===== */
+    /* ══════════════════════════════
+       HERO
+    ══════════════════════════════ */
     .hero{
-      min-height:100vh;display:flex;align-items:center;
+      position:relative;min-height:100vh;
+      display:flex;align-items:center;
       padding:130px 64px 80px;gap:70px;
-      background:linear-gradient(145deg,#F0F6FF 0%,#EBF5FF 40%,#F0FFF4 100%);
-      position:relative;overflow:hidden;
+      overflow:hidden;
+      background:linear-gradient(150deg,#EBF3FF 0%,#F0F9FF 35%,#EDFFF5 65%,#FFFBEA 100%);
     }
-    /* animated blobs */
-    .blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;animation:blobMove 8s ease-in-out infinite}
-    .blob1{width:500px;height:500px;background:rgba(25,118,210,.08);top:-100px;left:-100px}
-    .blob2{width:400px;height:400px;background:rgba(67,160,71,.08);bottom:-80px;right:-80px;animation-delay:-3s}
-    .blob3{width:300px;height:300px;background:rgba(255,214,0,.12);top:40%;right:30%;animation-delay:-5s}
-    @keyframes blobMove{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.05)}66%{transform:translate(-20px,15px) scale(.97)}}
+    /* CANVAS animated background */
+    #heroBg{position:absolute;inset:0;z-index:0}
 
-    /* hex grid bg */
-    .hero::before{
-      content:'';position:absolute;inset:0;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50V17L28 1l28 16v33z' fill='none' stroke='rgba(25,118,210,0.05)' stroke-width='1'/%3E%3Cpath d='M28 100L0 84V51l28-17 28 17v33z' fill='none' stroke='rgba(25,118,210,0.05)' stroke-width='1'/%3E%3C/svg%3E");
-      opacity:.6;pointer-events:none;
+    /* soft gradient overlay */
+    .hero::after{
+      content:'';position:absolute;inset:0;z-index:1;
+      background:radial-gradient(ellipse 70% 80% at 20% 50%,rgba(21,101,192,.05) 0%,transparent 70%),
+                radial-gradient(ellipse 50% 60% at 90% 80%,rgba(46,125,50,.06) 0%,transparent 70%);
+      pointer-events:none;
     }
+    .hero-text,.hero-visual{position:relative;z-index:2}
 
-    .hero-text{flex:1;max-width:580px;position:relative}
+    .hero-text{flex:1;max-width:580px}
     .badge{
       display:inline-flex;align-items:center;gap:8px;
-      background:rgba(25,118,210,.1);border:1.5px solid rgba(25,118,210,.2);
+      background:rgba(21,101,192,.1);border:1.5px solid rgba(21,101,192,.22);
       color:var(--blue);font-size:.82rem;font-weight:700;
-      padding:7px 18px;border-radius:50px;margin-bottom:28px;
-      animation:pulseBadge 3s ease-in-out infinite;
+      padding:7px 20px;border-radius:50px;margin-bottom:28px;
+      animation:badgePulse 3s ease-in-out infinite;
     }
-    @keyframes pulseBadge{0%,100%{box-shadow:0 0 0 0 rgba(25,118,210,.25)}50%{box-shadow:0 0 0 8px rgba(25,118,210,0)}}
-    .hero-title{font-size:clamp(2.5rem,5vw,4.2rem);font-weight:900;line-height:1.18;margin-bottom:22px;color:var(--dark)}
-    .hero-title .hl-blue{
-      background:linear-gradient(135deg,var(--blue),var(--blue2));
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-    }
-    .hero-title .hl-green{
-      background:linear-gradient(135deg,var(--green),var(--green2));
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-    }
-    .hero-desc{font-size:1.1rem;color:var(--text2);line-height:1.9;max-width:480px;margin-bottom:40px}
-    .hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:56px}
-    .btn-blue{
+    @keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(21,101,192,.25)}50%{box-shadow:0 0 0 10px rgba(21,101,192,0)}}
+    .hero-h1{font-size:clamp(2.4rem,5vw,4rem);font-weight:900;line-height:1.18;margin-bottom:24px;color:var(--dark)}
+    .gl-blue{background:linear-gradient(135deg,var(--blue),var(--blue3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .gl-green{background:linear-gradient(135deg,var(--green),var(--green3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-p{font-size:1.08rem;color:var(--text2);line-height:1.92;max-width:470px;margin-bottom:38px}
+    .hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:52px}
+    .btn-primary{
       display:inline-flex;align-items:center;gap:9px;
       background:linear-gradient(135deg,var(--blue),var(--blue2));
-      color:#fff;font-weight:700;font-size:1rem;
+      color:#fff;font-weight:700;font-size:.98rem;
       padding:16px 36px;border-radius:50px;text-decoration:none;
-      box-shadow:0 8px 28px rgba(25,118,210,.4);
+      box-shadow:0 8px 28px rgba(21,101,192,.42);
       transition:transform .25s,box-shadow .25s;position:relative;overflow:hidden;
     }
-    .btn-blue::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.12);opacity:0;transition:opacity .2s}
-    .btn-blue:hover{transform:translateY(-4px);box-shadow:0 16px 42px rgba(25,118,210,.55)}
-    .btn-blue:hover::after{opacity:1}
-    .btn-outline{
+    .btn-primary::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.12);opacity:0;transition:opacity .2s}
+    .btn-primary:hover{transform:translateY(-4px);box-shadow:0 16px 44px rgba(21,101,192,.58)}
+    .btn-primary:hover::before{opacity:1}
+    .btn-ghost{
       display:inline-flex;align-items:center;gap:9px;
-      background:transparent;border:2px solid var(--blue);
-      color:var(--blue);font-weight:700;font-size:1rem;
-      padding:14px 34px;border-radius:50px;text-decoration:none;
-      transition:background .2s,color .2s,transform .2s;
+      background:rgba(255,255,255,.7);border:2px solid rgba(21,101,192,.25);
+      color:var(--blue);font-weight:700;font-size:.98rem;
+      padding:14px 34px;border-radius:50px;text-decoration:none;backdrop-filter:blur(8px);
+      transition:all .25s;
     }
-    .btn-outline:hover{background:var(--blue);color:#fff;transform:translateY(-2px)}
+    .btn-ghost:hover{background:var(--blue);color:#fff;border-color:var(--blue);transform:translateY(-2px)}
 
     /* stats */
-    .stats-row{display:flex;gap:36px;flex-wrap:wrap}
-    .stat{display:flex;flex-direction:column;align-items:flex-start}
-    .stat-num{font-size:2.2rem;font-weight:900;line-height:1;
-      background:linear-gradient(135deg,var(--blue),var(--green));
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-    }
-    .stat-label{font-size:.82rem;color:var(--muted);font-weight:600;margin-top:4px}
-    .stat-divider{width:1px;background:rgba(25,118,210,.15);align-self:stretch}
+    .stats-row{display:flex;gap:36px;flex-wrap:wrap;align-items:center}
+    .stat-sep{width:1px;height:40px;background:rgba(21,101,192,.15)}
+    .stat-val{font-size:2rem;font-weight:900;line-height:1;background:linear-gradient(135deg,var(--blue),var(--green2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .stat-lbl{font-size:.8rem;color:var(--muted);font-weight:600;margin-top:3px}
 
-    /* hero visual */
-    .hero-visual{flex:0 0 auto;position:relative;display:flex;align-items:center;justify-content:center}
-    .phone-stack{position:relative;width:320px;height:580px}
-    .phone-shadow{position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);width:220px;height:40px;background:radial-gradient(ellipse,rgba(25,118,210,.2) 0%,transparent 70%)}
-    .phone-main{
+    /* hero phones */
+    .hero-visual{flex:0 0 auto;display:flex;justify-content:center;align-items:center}
+    .phone-stack{position:relative;width:330px;height:580px}
+    .ph-back{
+      position:absolute;top:55px;right:-60px;
+      width:205px;height:420px;border-radius:36px;background:#fff;
+      border:2px solid rgba(46,125,50,.18);overflow:hidden;
+      box-shadow:0 20px 60px rgba(46,125,50,.12);
+      animation:ph2 5.5s ease-in-out infinite .6s;
+      filter:brightness(.88) saturate(.9);
+    }
+    .ph-front{
       position:absolute;top:0;left:0;
-      width:240px;height:495px;
-      border-radius:40px;
-      background:#fff;
-      border:3px solid rgba(25,118,210,.25);
-      box-shadow:0 30px 80px rgba(25,118,210,.2),0 0 0 1px rgba(255,255,255,.8);
-      overflow:hidden;
-      animation:phoneFloat 4s ease-in-out infinite;
+      width:245px;height:505px;border-radius:42px;background:#fff;
+      border:3px solid rgba(21,101,192,.22);overflow:hidden;
+      box-shadow:0 0 0 10px rgba(21,101,192,.05),0 32px 90px rgba(21,101,192,.22);
+      animation:ph1 4s ease-in-out infinite;
     }
-    .phone-back{
-      position:absolute;top:50px;right:-55px;
-      width:200px;height:410px;
-      border-radius:34px;background:#fff;
-      border:2px solid rgba(67,160,71,.2);
-      box-shadow:0 20px 50px rgba(67,160,71,.15);
-      overflow:hidden;
-      animation:phoneFloat 5s ease-in-out infinite .8s;
-      filter:brightness(.92);
-    }
-    @keyframes phoneFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
-    .phone-img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+    @keyframes ph1{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-14px) rotate(.5deg)}}
+    @keyframes ph2{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-10px) rotate(-1deg)}}
+    .ph-img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+    .ph-glow{position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);width:280px;height:80px;background:radial-gradient(ellipse,rgba(21,101,192,.18) 0%,transparent 70%)}
 
-    /* floating chips */
-    .chip{
-      position:absolute;background:#fff;border-radius:16px;
-      padding:10px 16px;display:flex;align-items:center;gap:10px;
-      box-shadow:0 8px 32px rgba(0,0,0,.1);
-      animation:chipFloat 3.5s ease-in-out infinite;
-    }
-    .chip1{bottom:80px;right:-20px;animation-delay:0s}
-    .chip2{top:60px;left:-15px;animation-delay:.9s}
-    .chip3{top:200px;right:-35px;animation-delay:1.8s;padding:8px 14px}
-    @keyframes chipFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-    .chip-icon{font-size:1.4rem}
+    /* floating info chips */
+    .chip{position:absolute;z-index:3;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-radius:18px;padding:12px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,.1);border:1px solid rgba(255,255,255,.8);animation:chipF 3.8s ease-in-out infinite}
+    .chip1{bottom:90px;right:-15px}
+    .chip2{top:55px;left:-10px;animation-delay:.9s}
+    .chip3{top:210px;right:-30px;padding:8px 16px;animation-delay:1.7s}
+    @keyframes chipF{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+    .chip-icon{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center}
     .chip-text{font-size:.75rem;font-weight:700;color:var(--dark)}
     .chip-sub{font-size:.62rem;color:var(--muted)}
-    .chip-badge{font-size:.7rem;font-weight:700;background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;padding:3px 10px;border-radius:20px}
+    .chip-pill{font-size:.7rem;font-weight:700;padding:4px 12px;border-radius:20px;color:#fff}
 
-    /* ===== WAVE DIVIDER ===== */
-    .wave{width:100%;overflow:hidden;line-height:0;display:block}
-    .wave svg{display:block;width:100%}
+    /* ── WAVE ── */
+    .wave-wrap{display:block;overflow:hidden;line-height:0}
+    .wave-wrap svg{display:block;width:100%;height:60px}
 
-    /* ===== CONTAINER ===== */
+    /* ── CONTAINER ── */
     .container{max-width:1160px;margin:0 auto;padding:0 40px}
     section.pad{padding:110px 0}
-    .section-header{text-align:center;margin-bottom:72px}
-    .section-tag{
-      display:inline-flex;align-items:center;gap:7px;
-      background:var(--blue-light);border:1.5px solid rgba(25,118,210,.2);
-      color:var(--blue);font-size:.8rem;font-weight:700;
-      padding:6px 18px;border-radius:50px;margin-bottom:18px;
-    }
-    .section-title{font-size:clamp(1.9rem,3.5vw,2.9rem);font-weight:900;line-height:1.25;margin-bottom:16px;color:var(--dark)}
-    .section-title .blue{color:var(--blue)}
-    .section-title .green{color:var(--green)}
-    .section-subtitle{font-size:1rem;color:var(--text2);max-width:520px;margin:0 auto;line-height:1.9}
+    .sec-head{text-align:center;margin-bottom:72px}
+    .sec-tag{display:inline-flex;align-items:center;gap:7px;background:var(--blue-l);border:1.5px solid rgba(21,101,192,.18);color:var(--blue);font-size:.8rem;font-weight:700;padding:6px 18px;border-radius:50px;margin-bottom:18px}
+    .sec-h2{font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:900;line-height:1.25;margin-bottom:14px;color:var(--dark)}
+    .sec-h2 .c-blue{color:var(--blue)}
+    .sec-h2 .c-green{color:var(--green2)}
+    .sec-p{font-size:1rem;color:var(--text2);max-width:520px;margin:0 auto;line-height:1.9}
 
-    /* ===== NUMBERS BAND ===== */
-    .numbers-band{
-      background:linear-gradient(135deg,var(--blue2),var(--blue),var(--blue2));
-      padding:70px 0;position:relative;overflow:hidden;
-    }
-    .numbers-band::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='1.5' fill='rgba(255,255,255,0.08)'/%3E%3C/svg%3E")}
-    .numbers-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative}
-    .num-card{
-      text-align:center;padding:36px 24px;
-      background:rgba(255,255,255,.1);backdrop-filter:blur(10px);
-      border:1px solid rgba(255,255,255,.2);border-radius:var(--radius);
-      transition:transform .35s,background .35s;
-    }
-    .num-card:hover{transform:translateY(-6px);background:rgba(255,255,255,.18)}
-    .num-val{font-size:3rem;font-weight:900;color:#fff;line-height:1;display:block}
-    .num-plus{color:var(--yellow);font-size:2rem}
-    .num-label{font-size:.88rem;color:rgba(255,255,255,.8);font-weight:600;margin-top:8px;display:block}
+    /* ── NUMBERS BAND ── */
+    .num-band{background:linear-gradient(135deg,#0D47A1,#1565C0,#1976D2,#0D47A1);background-size:300% 300%;animation:bandShift 8s ease infinite;padding:68px 0;position:relative;overflow:hidden}
+    @keyframes bandShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    .num-band::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104' viewBox='0 0 60 104'%3E%3Cpath d='M30 2 L58 17 L58 47 L30 62 L2 47 L2 17Z' fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='1'/%3E%3C/svg%3E")}
+    .num-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative}
+    .num-card{text-align:center;padding:36px 20px;background:rgba(255,255,255,.08);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);border-radius:var(--r);transition:transform .35s,background .35s}
+    .num-card:hover{transform:translateY(-8px);background:rgba(255,255,255,.16)}
+    .num-v{font-size:3.2rem;font-weight:900;color:#fff;line-height:1;display:block}
+    .num-plus{color:var(--yellow2);font-size:2.4rem;vertical-align:super;font-size:1.6rem}
+    .num-lbl{font-size:.88rem;color:rgba(255,255,255,.75);font-weight:600;margin-top:10px;display:block}
 
-    /* ===== FEATURES ===== */
-    .features-section{background:var(--bg)}
-    .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+    /* ── FEATURES ── */
+    .feat-section{background:var(--bg)}
+    .feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
     .feat-card{
-      background:var(--card);border:1.5px solid rgba(25,118,210,.08);
-      border-radius:var(--radius);padding:38px 32px;
-      transition:transform .35s,border-color .35s,box-shadow .35s;
-      position:relative;overflow:hidden;
+      background:var(--card);border:1.5px solid rgba(21,101,192,.07);border-radius:var(--r);
+      padding:38px 32px;position:relative;overflow:hidden;
+      transition:transform .38s,border-color .38s,box-shadow .38s;
     }
-    .feat-card::before{content:'';position:absolute;top:0;right:0;left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--green));transform:scaleX(0);transition:transform .4s;transform-origin:right}
-    .feat-card:hover{transform:translateY(-8px);border-color:rgba(25,118,210,.2);box-shadow:0 20px 60px rgba(25,118,210,.12)}
-    .feat-card:hover::before{transform:scaleX(1)}
-    .feat-icon{
-      width:62px;height:62px;border-radius:18px;
-      display:flex;align-items:center;justify-content:center;font-size:1.9rem;
-      margin-bottom:22px;transition:transform .3s;
-    }
-    .feat-card:hover .feat-icon{transform:scale(1.1) rotate(-6deg)}
-    .feat-icon.blue{background:var(--blue-light)}
-    .feat-icon.green{background:var(--green-light)}
-    .feat-icon.yellow{background:#FFFDE7}
-    .feat-title{font-size:1.08rem;font-weight:700;margin-bottom:10px;color:var(--dark)}
-    .feat-desc{font-size:.9rem;color:var(--text2);line-height:1.78}
+    .feat-card::before{content:'';position:absolute;inset:0;background:linear-gradient(145deg,rgba(21,101,192,.03),rgba(46,125,50,.03));opacity:0;transition:opacity .38s}
+    .feat-card::after{content:'';position:absolute;top:0;right:0;left:0;height:3px;border-radius:var(--r) var(--r) 0 0;transform:scaleX(0);transition:transform .4s;transform-origin:right}
+    .feat-card:hover{transform:translateY(-10px);border-color:rgba(21,101,192,.2);box-shadow:0 24px 70px rgba(21,101,192,.12)}
+    .feat-card:hover::before{opacity:1}
+    .feat-card:hover::after{transform:scaleX(1)}
+    .feat-card.fc-blue::after{background:linear-gradient(90deg,var(--blue),var(--blue3))}
+    .feat-card.fc-green::after{background:linear-gradient(90deg,var(--green),var(--green3))}
+    .feat-card.fc-yellow::after{background:linear-gradient(90deg,var(--yellow),var(--yellow2))}
 
-    /* ===== HOW IT WORKS ===== */
-    .how-section{background:var(--white)}
-    .how-tabs{display:flex;gap:10px;justify-content:center;margin-bottom:64px}
-    .tab-btn{
-      background:var(--bg);border:1.5px solid rgba(25,118,210,.15);
-      color:var(--text2);font-family:'Cairo',sans-serif;font-size:.95rem;font-weight:700;
-      padding:13px 32px;border-radius:50px;cursor:pointer;transition:all .25s;
+    .feat-ico{
+      width:64px;height:64px;border-radius:18px;
+      display:flex;align-items:center;justify-content:center;
+      margin-bottom:24px;transition:transform .35s;
     }
-    .tab-btn.active{background:linear-gradient(135deg,var(--blue),var(--blue2));border-color:transparent;color:#fff;box-shadow:0 6px 24px rgba(25,118,210,.35)}
-    .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+    .feat-card:hover .feat-ico{transform:scale(1.12) rotate(-8deg)}
+    .feat-ico svg{width:30px;height:30px}
+    .feat-ico.blue{background:linear-gradient(135deg,#E3F2FD,#BBDEFB)}
+    .feat-ico.blue svg{color:var(--blue)}
+    .feat-ico.green{background:linear-gradient(135deg,#E8F5E9,#C8E6C9)}
+    .feat-ico.green svg{color:var(--green)}
+    .feat-ico.yellow{background:linear-gradient(135deg,#FFFDE7,#FFF9C4)}
+    .feat-ico.yellow svg{color:var(--yellow)}
+
+    .feat-h{font-size:1.08rem;font-weight:700;margin-bottom:10px;color:var(--dark)}
+    .feat-p{font-size:.9rem;color:var(--text2);line-height:1.78}
+
+    /* ── HOW IT WORKS ── */
+    .how-bg{background:var(--white)}
+    .how-tabs{display:flex;gap:10px;justify-content:center;margin-bottom:64px}
+    .tab-btn{background:var(--bg);border:1.5px solid rgba(21,101,192,.14);color:var(--text2);font-family:'Cairo',sans-serif;font-size:.93rem;font-weight:700;padding:13px 32px;border-radius:50px;cursor:pointer;transition:all .25s}
+    .tab-btn.active{background:linear-gradient(135deg,var(--blue),var(--blue2));border-color:transparent;color:#fff;box-shadow:0 6px 24px rgba(21,101,192,.36)}
+    .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
     .step-card{
-      text-align:center;padding:50px 28px 40px;
-      background:var(--bg);border:1.5px solid rgba(25,118,210,.08);border-radius:var(--radius);
+      text-align:center;padding:52px 28px 40px;
+      background:var(--bg);border:1.5px solid rgba(21,101,192,.07);border-radius:var(--r);
       position:relative;transition:transform .35s,box-shadow .35s;
     }
-    .step-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(25,118,210,.1)}
-    .step-num{
-      position:absolute;top:-22px;right:50%;transform:translateX(50%);
-      width:44px;height:44px;
-      background:linear-gradient(135deg,var(--blue),var(--blue2));
-      border-radius:50%;display:flex;align-items:center;justify-content:center;
-      font-weight:900;font-size:1.1rem;color:#fff;
-      box-shadow:0 6px 20px rgba(25,118,210,.4);
-    }
-    .step-icon{font-size:3rem;margin-bottom:18px;display:block}
-    .step-title{font-size:1.05rem;font-weight:700;margin-bottom:12px;color:var(--dark)}
-    .step-desc{font-size:.88rem;color:var(--text2);line-height:1.78}
-    .step-card.green .step-num{background:linear-gradient(135deg,var(--green),var(--green2));box-shadow:0 6px 20px rgba(67,160,71,.4)}
+    .step-card:hover{transform:translateY(-7px);box-shadow:0 20px 55px rgba(21,101,192,.1)}
+    .step-num{position:absolute;top:-22px;right:50%;transform:translateX(50%);width:44px;height:44px;background:linear-gradient(135deg,var(--blue),var(--blue2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1rem;color:#fff;box-shadow:0 6px 20px rgba(21,101,192,.4)}
+    .step-num.green{background:linear-gradient(135deg,var(--green),var(--green2));box-shadow:0 6px 20px rgba(46,125,50,.4)}
+    .step-ico{width:68px;height:68px;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+    .step-ico svg{width:32px;height:32px}
+    .step-ico.blue{background:linear-gradient(135deg,#E3F2FD,#BBDEFB)}
+    .step-ico.blue svg{color:var(--blue)}
+    .step-ico.green{background:linear-gradient(135deg,#E8F5E9,#C8E6C9)}
+    .step-ico.green svg{color:var(--green)}
+    .step-h{font-size:1.05rem;font-weight:700;margin-bottom:10px;color:var(--dark)}
+    .step-p{font-size:.88rem;color:var(--text2);line-height:1.78}
     .how-panel{display:none}
     .how-panel.active{display:block}
 
-    /* ===== CAROUSEL ===== */
-    .screens-section{background:var(--bg)}
+    /* ── CAROUSEL ── */
+    .scr-bg{background:var(--bg)}
     .carousel-outer{position:relative}
-    .carousel-viewport{overflow:hidden;max-width:628px;margin:0 auto;padding:28px 6px 40px}
-    .screens-track{display:flex;gap:24px;direction:ltr;transition:transform .65s cubic-bezier(.4,0,.2,1)}
-    .screen-item{
-      flex:0 0 180px;display:flex;flex-direction:column;align-items:center;gap:14px;
-      transition:transform .5s cubic-bezier(.4,0,.2,1),opacity .5s,filter .5s;
-    }
-    .screen-item.s-dim{opacity:.38;transform:scale(.87);filter:blur(1.5px)}
-    .screen-phone{
-      width:180px;height:370px;
-      background:#fff;border-radius:30px;
-      border:2px solid rgba(25,118,210,.15);overflow:hidden;
-      box-shadow:0 12px 40px rgba(25,118,210,.1);
-      display:flex;flex-direction:column;align-items:center;padding:0;
-      transition:box-shadow .5s,border-color .5s,transform .5s;
-    }
-    .screen-phone img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
-    .screen-item:not(.s-dim) .screen-phone{
-      border-color:rgba(25,118,210,.4);
-      box-shadow:0 24px 70px rgba(25,118,210,.22),0 0 0 4px rgba(25,118,210,.06);
-      transform:translateY(-8px);
-    }
-    .screen-label{font-size:.85rem;font-weight:700;color:var(--muted);text-align:center;transition:color .4s}
-    .screen-item:not(.s-dim) .screen-label{color:var(--blue)}
+    .carousel-vp{overflow:hidden;max-width:628px;margin:0 auto;padding:28px 6px 44px}
+    .scr-track{display:flex;gap:24px;direction:ltr;transition:transform .65s cubic-bezier(.4,0,.2,1)}
+    .scr-item{flex:0 0 180px;display:flex;flex-direction:column;align-items:center;gap:14px;transition:transform .5s cubic-bezier(.4,0,.2,1),opacity .5s,filter .5s}
+    .scr-item.dim{opacity:.35;transform:scale(.86);filter:blur(2px)}
+    .scr-phone{width:180px;height:370px;background:#fff;border-radius:30px;border:2px solid rgba(21,101,192,.14);overflow:hidden;box-shadow:0 12px 40px rgba(21,101,192,.1);padding:0;transition:all .5s}
+    .scr-phone img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+    .scr-item:not(.dim) .scr-phone{border-color:rgba(21,101,192,.42);box-shadow:0 24px 72px rgba(21,101,192,.2),0 0 0 5px rgba(21,101,192,.05);transform:translateY(-9px)}
+    .scr-lbl{font-size:.84rem;font-weight:700;color:var(--muted);text-align:center;transition:color .4s}
+    .scr-item:not(.dim) .scr-lbl{color:var(--blue)}
+    .sp-inner{width:100%;height:100%;padding:18px 12px;display:flex;flex-direction:column;align-items:center;gap:9px;background:#fff}
+    .m-card{width:100%;background:var(--bg);border-radius:10px;padding:8px;display:flex;align-items:center;gap:6px}
+    .m-dot{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .m-lines{flex:1}
+    .m-line{height:6px;border-radius:3px;background:rgba(0,0,0,.07);margin-bottom:4px}
+    .m-line.s{width:60%}
+    .m-line.b{background:rgba(21,101,192,.35)}
+    .m-line.g{background:rgba(67,160,71,.35)}
+    .m-btn{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;font-size:.6rem;font-weight:700;padding:5px 10px;border-radius:20px;width:100%;text-align:center;margin-top:auto}
+    .otp-row{display:flex;gap:4px;justify-content:center;margin-top:8px}
+    .otp-d{width:28px;height:34px;background:var(--bg);border-radius:8px;border:1.5px solid rgba(21,101,192,.2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--blue)}
 
-    /* CSS phone inner */
-    .sp-inner{width:100%;height:100%;padding:18px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;background:#fff}
-    .mini-card{width:100%;background:var(--bg);border-radius:10px;padding:8px;display:flex;align-items:center;gap:6px}
-    .mini-dot{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
-    .mini-lines{flex:1}
-    .mini-line{height:6px;border-radius:3px;background:rgba(0,0,0,.08);margin-bottom:4px}
-    .mini-line.short{width:60%}
-    .mini-line.blue-l{background:rgba(25,118,210,.4)}
-    .mini-line.green-l{background:rgba(67,160,71,.4)}
-    .mini-btn-w{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;font-size:.6rem;font-weight:700;padding:5px 10px;border-radius:20px;width:100%;text-align:center;margin-top:4px}
-    .otp-box{width:100%;display:flex;gap:4px;justify-content:center;margin-top:8px}
-    .otp-digit{width:28px;height:34px;background:var(--bg);border-radius:8px;border:1px solid rgba(25,118,210,.25);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--blue)}
+    /* nav buttons */
+    .car-nav{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:24px}
+    .car-btn{width:52px;height:52px;border-radius:50%;border:2px solid rgba(21,101,192,.22);background:var(--white);color:var(--blue);font-size:1.2rem;cursor:pointer;font-family:'Cairo',sans-serif;display:flex;align-items:center;justify-content:center;transition:all .25s;box-shadow:0 4px 16px rgba(21,101,192,.1)}
+    .car-btn:hover:not(:disabled){background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 8px 28px rgba(21,101,192,.36);transform:scale(1.1)}
+    .car-btn:disabled{opacity:.22;cursor:default;transform:none!important;box-shadow:none}
+    .c-dots{display:flex;gap:8px;align-items:center}
+    .c-dot{width:8px;height:8px;border-radius:4px;background:rgba(21,101,192,.18);border:none;cursor:pointer;padding:0;transition:all .38s cubic-bezier(.4,0,.2,1)}
+    .c-dot.on{width:30px;background:linear-gradient(90deg,var(--blue),var(--green2));box-shadow:0 0 10px rgba(21,101,192,.35)}
 
-    /* carousel nav */
-    .carousel-nav{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:24px}
-    .car-btn{
-      width:52px;height:52px;border-radius:50%;
-      border:2px solid rgba(25,118,210,.25);background:var(--white);
-      color:var(--blue);font-size:1.2rem;font-weight:700;cursor:pointer;
-      font-family:'Cairo',sans-serif;display:flex;align-items:center;justify-content:center;
-      transition:all .25s;box-shadow:0 4px 16px rgba(25,118,210,.1);
-    }
-    .car-btn:hover:not(:disabled){background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 8px 28px rgba(25,118,210,.35);transform:scale(1.1)}
-    .car-btn:disabled{opacity:.25;cursor:default;transform:none!important;box-shadow:none}
-    .cdots{display:flex;gap:8px;align-items:center}
-    .cdot{width:8px;height:8px;border-radius:4px;background:rgba(25,118,210,.2);border:none;cursor:pointer;padding:0;transition:all .35s cubic-bezier(.4,0,.2,1)}
-    .cdot.active{width:30px;background:linear-gradient(90deg,var(--blue),var(--green));box-shadow:0 0 10px rgba(25,118,210,.35)}
+    @media(max-width:700px){.carousel-vp{max-width:calc(2*180px + 24px)}}
+    @media(max-width:480px){.carousel-vp{max-width:180px}}
 
-    @media(max-width:700px){.carousel-viewport{max-width:calc(2*180px + 24px)}}
-    @media(max-width:480px){.carousel-viewport{max-width:180px}}
-
-    /* ===== APP DOWNLOAD CTA ===== */
-    .cta-section{
+    /* ── CTA ── */
+    .cta-bg{
       padding:110px 0;
-      background:linear-gradient(145deg,#E3F2FD 0%,#E8F5E9 50%,#FFFDE7 100%);
+      background:linear-gradient(145deg,#EBF3FF 0%,#E8F5E9 50%,#FFFDE7 100%);
       position:relative;overflow:hidden;
     }
-    .cta-section::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='1' fill='rgba(25,118,210,0.06)'/%3E%3C/svg%3E")}
-    .cta-box{
-      text-align:center;position:relative;
-      background:#fff;border-radius:32px;padding:80px 60px;
-      box-shadow:0 20px 80px rgba(25,118,210,.12);
-      border:1px solid rgba(25,118,210,.08);
-    }
-    .cta-logo{width:80px;height:80px;object-fit:contain;margin:0 auto 24px;display:block;animation:logoSpin 6s linear infinite}
-    @keyframes logoSpin{0%,100%{transform:rotate(-5deg) scale(1)}50%{transform:rotate(5deg) scale(1.08)}}
-    .cta-title{font-size:clamp(2rem,4vw,3rem);font-weight:900;margin-bottom:16px;color:var(--dark)}
-    .cta-subtitle{font-size:1.08rem;color:var(--text2);margin-bottom:48px;line-height:1.85}
+    .cta-box{text-align:center;position:relative;background:#fff;border-radius:32px;padding:80px 64px;box-shadow:0 20px 80px rgba(21,101,192,.12);border:1px solid rgba(21,101,192,.08)}
+    .cta-logo{width:84px;height:84px;object-fit:contain;margin:0 auto 24px;display:block;animation:logoRock 4s ease-in-out infinite}
+    @keyframes logoRock{0%,100%{transform:rotate(-6deg) scale(1)}50%{transform:rotate(6deg) scale(1.1)}}
+    .cta-h{font-size:clamp(2rem,4vw,3rem);font-weight:900;margin-bottom:16px;color:var(--dark)}
+    .cta-p{font-size:1.05rem;color:var(--text2);margin-bottom:44px;line-height:1.88}
     .cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
-    .store-btn{
-      display:inline-flex;align-items:center;gap:14px;
-      background:var(--bg);border:1.5px solid rgba(25,118,210,.12);
-      border-radius:18px;padding:16px 30px;text-decoration:none;color:var(--dark);
-      transition:all .25s;
-    }
-    .store-btn:hover{background:#fff;border-color:var(--blue);transform:translateY(-3px);box-shadow:0 12px 40px rgba(25,118,210,.15)}
-    .store-btn.primary-store{background:linear-gradient(135deg,var(--blue),var(--blue2));border-color:transparent;color:#fff;box-shadow:0 8px 30px rgba(25,118,210,.4)}
-    .store-btn.primary-store:hover{box-shadow:0 16px 48px rgba(25,118,210,.55)}
-    .store-icon{font-size:2rem}
-    .store-text{text-align:right}
-    .store-sub{font-size:.68rem;opacity:.65}
-    .store-name{font-size:1rem;font-weight:700}
+    .store-btn{display:inline-flex;align-items:center;gap:14px;background:var(--bg);border:1.5px solid rgba(21,101,192,.12);border-radius:18px;padding:16px 30px;text-decoration:none;color:var(--dark);transition:all .25s}
+    .store-btn:hover{background:#fff;border-color:var(--blue);transform:translateY(-4px);box-shadow:0 12px 40px rgba(21,101,192,.14)}
+    .store-btn.main{background:linear-gradient(135deg,var(--blue),var(--blue2));border-color:transparent;color:#fff;box-shadow:0 8px 30px rgba(21,101,192,.42)}
+    .store-btn.main:hover{box-shadow:0 16px 50px rgba(21,101,192,.58)}
+    .s-ico{font-size:2rem}
+    .s-txt{text-align:right}
+    .s-sub{font-size:.68rem;opacity:.65}
+    .s-name{font-size:1rem;font-weight:700}
 
-    /* ===== CONTACT ===== */
-    .contact-section{background:var(--white)}
-    .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px}
-    .contact-card{
-      background:var(--bg);border:1.5px solid rgba(25,118,210,.08);border-radius:var(--radius);padding:30px 24px;
-      display:flex;flex-direction:column;align-items:flex-start;gap:12px;
-      text-decoration:none;color:var(--dark);
-      transition:transform .35s,border-color .35s,box-shadow .35s;
-    }
-    .contact-card:hover{transform:translateY(-6px);border-color:rgba(25,118,210,.2);box-shadow:0 16px 50px rgba(25,118,210,.1)}
-    .contact-icon{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;transition:transform .3s}
-    .contact-card:hover .contact-icon{transform:scale(1.1) rotate(-6deg)}
-    .contact-label{font-size:.76rem;color:var(--muted);font-weight:600}
-    .contact-value{font-size:.92rem;font-weight:700;direction:ltr;color:var(--dark)}
+    /* ── CONTACT ── */
+    .con-bg{background:var(--white)}
+    .con-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:20px}
+    .con-card{background:var(--bg);border:1.5px solid rgba(21,101,192,.07);border-radius:var(--r);padding:30px 24px;display:flex;flex-direction:column;align-items:flex-start;gap:12px;text-decoration:none;color:var(--dark);transition:all .35s}
+    .con-card:hover{transform:translateY(-7px);border-color:rgba(21,101,192,.22);box-shadow:0 16px 50px rgba(21,101,192,.1)}
+    .con-ico{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;transition:transform .3s}
+    .con-card:hover .con-ico{transform:scale(1.1) rotate(-7deg)}
+    .con-ico svg{width:24px;height:24px}
+    .con-lbl{font-size:.76rem;color:var(--muted);font-weight:600}
+    .con-val{font-size:.9rem;font-weight:700;direction:ltr;color:var(--dark)}
 
-    /* ===== FOOTER ===== */
-    footer{background:var(--dark);padding:56px 0 32px;color:#fff}
-    .footer-inner{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:32px;margin-bottom:40px}
-    .footer-brand{display:flex;align-items:center;gap:12px;font-size:1.3rem;font-weight:900;text-decoration:none;color:#fff}
-    .footer-brand img{width:40px;height:40px;object-fit:contain}
-    .footer-brand span{color:var(--yellow)}
-    .footer-desc{font-size:.88rem;color:rgba(255,255,255,.55);line-height:1.8;max-width:280px;margin-top:12px}
-    .footer-col h4{font-size:.85rem;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px}
-    .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
-    .footer-col ul a{color:rgba(255,255,255,.7);text-decoration:none;font-size:.9rem;font-weight:500;transition:color .2s}
-    .footer-col ul a:hover{color:var(--yellow)}
-    .footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-    .footer-copy{font-size:.82rem;color:rgba(255,255,255,.4)}
-    .footer-love{font-size:.82rem;color:rgba(255,255,255,.4)}
-    .footer-love span{color:#E53935}
+    /* ── FOOTER ── */
+    footer{background:var(--dark);color:#fff;padding:60px 0 32px}
+    .ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+    .ft-brand{display:flex;align-items:center;gap:12px;font-size:1.2rem;font-weight:900;text-decoration:none;color:#fff;margin-bottom:14px}
+    .ft-brand img{width:40px;height:40px;object-fit:contain}
+    .ft-brand span{color:var(--yellow2)}
+    .ft-desc{font-size:.88rem;color:rgba(255,255,255,.5);line-height:1.82;max-width:260px}
+    .ft-col h4{font-size:.78rem;font-weight:700;color:rgba(255,255,255,.38);text-transform:uppercase;letter-spacing:.08em;margin-bottom:18px}
+    .ft-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+    .ft-col ul a{color:rgba(255,255,255,.65);text-decoration:none;font-size:.9rem;transition:color .2s}
+    .ft-col ul a:hover{color:var(--yellow2)}
+    .ft-bottom{border-top:1px solid rgba(255,255,255,.07);padding-top:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+    .ft-copy{font-size:.82rem;color:rgba(255,255,255,.35)}
+    .ft-love{font-size:.82rem;color:rgba(255,255,255,.35)}
+    .ft-love span{color:#E53935}
 
-    /* ===== RESPONSIVE ===== */
+    /* ── RESPONSIVE ── */
     @media(max-width:900px){
       nav{padding:14px 24px}
-      .nav-links{display:none}
-      .nav-btn{display:none}
+      .nav-links,.nav-dl{display:none}
       .hamburger{display:block}
-      .hero{flex-direction:column;padding:110px 24px 70px;text-align:center;gap:50px}
-      .hero-text{max-width:100%}
-      .hero-desc{margin:0 auto 40px}
+      .hero{flex-direction:column;padding:110px 24px 70px;gap:50px}
+      .hero-text{max-width:100%;text-align:center}
+      .hero-p{margin:0 auto 38px}
       .hero-btns{justify-content:center}
       .stats-row{justify-content:center}
-      .stat-divider{display:none}
       .phone-stack{width:270px;height:480px}
-      .phone-main{width:210px;height:430px}
-      .phone-back{width:180px;height:360px;right:-45px}
+      .ph-front{width:215px;height:445px}
+      .ph-back{width:180px;height:365px;right:-45px}
       .chip1,.chip3{display:none}
       .steps-grid{grid-template-columns:1fr}
-      .numbers-grid{grid-template-columns:repeat(2,1fr)}
+      .num-grid{grid-template-columns:repeat(2,1fr)}
+      .ft-grid{grid-template-columns:1fr 1fr;gap:32px}
       .cta-box{padding:60px 24px}
-      .footer-inner{flex-direction:column}
-      .footer-bottom{flex-direction:column;text-align:center}
+      .ft-bottom{flex-direction:column;text-align:center}
       .container{padding:0 20px}
     }
-    @media(max-width:480px){
-      .numbers-grid{grid-template-columns:repeat(2,1fr)}
-      .num-val{font-size:2.4rem}
+    @media(max-width:540px){
+      .num-grid{grid-template-columns:repeat(2,1fr)}
+      .num-v{font-size:2.5rem}
+      .ft-grid{grid-template-columns:1fr}
     }
   </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav id="mainNav">
+<nav id="nav">
   <a href="#" class="nav-brand">
-    <img src="logo.png" alt="BeeHive Logo"/>
-    <div class="nav-brand-text">سوق <span>الحرفيين</span></div>
+    <img src="logo.png" alt="BeeHive" onerror="this.style.display='none'"/>
+    <span class="nav-brand-name">سوق <span>الحرفيين</span></span>
   </a>
   <ul class="nav-links">
     <li><a href="#features">المميزات</a></li>
@@ -456,7 +385,10 @@
     <li><a href="#screens">الشاشات</a></li>
     <li><a href="#contact">تواصل معنا</a></li>
   </ul>
-  <a href="#download" class="nav-btn">⬇ حمّل التطبيق</a>
+  <a href="#download" class="nav-dl">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    حمّل التطبيق
+  </a>
   <button class="hamburger" onclick="toggleMenu()">☰</button>
 </nav>
 <div class="mob-menu" id="mobMenu">
@@ -464,397 +396,593 @@
   <a href="#how" onclick="toggleMenu()">كيف يعمل</a>
   <a href="#screens" onclick="toggleMenu()">الشاشات</a>
   <a href="#contact" onclick="toggleMenu()">تواصل معنا</a>
-  <a href="#download" class="mob-cta-link" onclick="toggleMenu()">⬇ حمّل التطبيق</a>
+  <a href="#download" class="mob-dl" onclick="toggleMenu()">⬇ حمّل التطبيق</a>
 </div>
 
-<!-- HERO -->
+<!-- ══ HERO ══ -->
 <section class="hero" id="home">
-  <div class="blob blob1"></div>
-  <div class="blob blob2"></div>
-  <div class="blob blob3"></div>
+  <canvas id="heroBg"></canvas>
 
   <div class="hero-text">
     <div class="badge" data-sr="up">🐝 &nbsp;BeeHive — سوق الحرفيين</div>
-    <h1 class="hero-title" data-sr="up" style="transition-delay:.1s">
+    <h1 class="hero-h1" data-sr="up" style="transition-delay:.1s">
       اعثر على الحرفي<br/>
-      المثالي في<br/>
-      <span class="hl-blue">ثوانٍ</span> <span class="hl-green">معدودة</span>
+      المثالي<br/>
+      في <span class="gl-blue">ثوانٍ</span> <span class="gl-green">معدودة</span>
     </h1>
-    <p class="hero-desc" data-sr="up" style="transition-delay:.2s">
+    <p class="hero-p" data-sr="up" style="transition-delay:.2s">
       منصة ذكية تربط العملاء بأمهر الحرفيين في اليمن —
       سبّاكون، كهربائيون، نجّارون، ودهّانون بضغطة واحدة.
     </p>
     <div class="hero-btns" data-sr="up" style="transition-delay:.3s">
-      <a href="#download" class="btn-blue">⬇ حمّل المجاناً</a>
-      <a href="#how" class="btn-outline">▶ كيف يعمل</a>
+      <a href="#download" class="btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        حمّل المجاناً
+      </a>
+      <a href="#how" class="btn-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        كيف يعمل
+      </a>
     </div>
     <div class="stats-row" data-sr="up" style="transition-delay:.42s">
-      <div class="stat">
-        <span class="stat-num" data-count="15">٠</span>
-        <span class="stat-label">مهنة متاحة</span>
+      <div>
+        <div class="stat-val" data-count="15">٠</div>
+        <div class="stat-lbl">مهنة متاحة</div>
       </div>
-      <div class="stat-divider"></div>
-      <div class="stat">
-        <span class="stat-num" data-count="500">٠</span>
-        <span class="stat-label">حرفي مسجّل</span>
+      <div class="stat-sep"></div>
+      <div>
+        <div class="stat-val" data-count="500">٠</div>
+        <div class="stat-lbl">حرفي مسجّل</div>
       </div>
-      <div class="stat-divider"></div>
-      <div class="stat">
-        <span class="stat-num">٢٤/٧</span>
-        <span class="stat-label">دعم متواصل</span>
+      <div class="stat-sep"></div>
+      <div>
+        <div class="stat-val">٢٤/٧</div>
+        <div class="stat-lbl">دعم متواصل</div>
       </div>
     </div>
   </div>
 
-  <div class="hero-visual" data-sr="right" style="transition-delay:.2s">
+  <div class="hero-visual" data-sr="right" style="transition-delay:.18s">
     <div class="phone-stack">
-      <div class="phone-back">
-        <img src="ss2.png" alt="شاشة ٢" class="phone-img" onerror="this.parentElement.style.background='#EEF2FF'"/>
+      <div class="ph-back">
+        <img src="ss2.png" class="ph-img" onerror="this.parentElement.style.background='var(--bg2)'"/>
       </div>
-      <div class="phone-main">
-        <img src="ss3.png" alt="شاشة التطبيق" class="phone-img"/>
+      <div class="ph-front">
+        <img src="ss3.png" class="ph-img"/>
       </div>
-      <div class="phone-shadow"></div>
+      <div class="ph-glow"></div>
 
       <div class="chip chip1">
-        <div class="chip-icon">⭐</div>
+        <div class="chip-icon" style="background:linear-gradient(135deg,#FFF9C4,#FFF176)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#F9A825"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
         <div>
           <div class="chip-text">تقييم ممتاز</div>
           <div class="chip-sub">٤.٨ من ٥</div>
         </div>
       </div>
+
       <div class="chip chip2">
-        <img src="logo.png" style="width:28px;height:28px;object-fit:contain"/>
-        <div class="chip-badge">✅ مقبول</div>
+        <img src="logo.png" style="width:30px;height:30px;object-fit:contain" onerror="this.style.display='none'"/>
+        <span class="chip-pill" style="background:linear-gradient(135deg,#2E7D32,#43A047)">✓ مقبول</span>
       </div>
+
       <div class="chip chip3">
-        <span style="font-size:.75rem;font-weight:700;color:var(--green)">+٢٤ طلب اليوم</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1976D2" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <span style="font-size:.72rem;font-weight:700;color:var(--green2)">+٢٤ طلب اليوم</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- WAVE -->
-<div class="wave" style="background:var(--white)">
-  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" height="60">
+<!-- wave down -->
+<div class="wave-wrap" style="background:var(--white)">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
     <path d="M0,40 C360,0 1080,80 1440,20 L1440,60 L0,60 Z" fill="#1565C0"/>
   </svg>
 </div>
 
-<!-- NUMBERS BAND -->
-<div class="numbers-band">
+<!-- ══ NUMBERS BAND ══ -->
+<div class="num-band">
   <div class="container">
-    <div class="numbers-grid">
+    <div class="num-grid">
       <div class="num-card" data-sr="up">
-        <span class="num-val"><span data-count="15">٠</span><span class="num-plus">+</span></span>
-        <span class="num-label">مهنة متاحة</span>
+        <span class="num-v"><span data-count="15">٠</span><span class="num-plus">+</span></span>
+        <span class="num-lbl">مهنة متاحة</span>
       </div>
       <div class="num-card" data-sr="up" style="transition-delay:.1s">
-        <span class="num-val"><span data-count="500">٠</span><span class="num-plus">+</span></span>
-        <span class="num-label">حرفي مسجّل</span>
+        <span class="num-v"><span data-count="500">٠</span><span class="num-plus">+</span></span>
+        <span class="num-lbl">حرفي مسجّل</span>
       </div>
       <div class="num-card" data-sr="up" style="transition-delay:.2s">
-        <span class="num-val"><span data-count-dec="4.8">٠</span><span class="num-plus">★</span></span>
-        <span class="num-label">تقييم متوسط</span>
+        <span class="num-v"><span data-count-dec="4.8">٠</span><span class="num-plus">★</span></span>
+        <span class="num-lbl">تقييم متوسط</span>
       </div>
       <div class="num-card" data-sr="up" style="transition-delay:.3s">
-        <span class="num-val">٢٤/٧</span>
-        <span class="num-label">دعم فني متواصل</span>
+        <span class="num-v">٢٤/٧</span>
+        <span class="num-lbl">دعم فني متواصل</span>
       </div>
     </div>
   </div>
 </div>
 
-<!-- WAVE bottom -->
-<div class="wave" style="background:var(--bg)">
-  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" height="60">
+<!-- wave up -->
+<div class="wave-wrap" style="background:var(--bg)">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
     <path d="M0,20 C360,80 1080,0 1440,40 L1440,0 L0,0 Z" fill="#1565C0"/>
   </svg>
 </div>
 
-<!-- FEATURES -->
-<section class="pad features-section" id="features">
+<!-- ══ FEATURES ══ -->
+<section class="pad feat-section" id="features">
   <div class="container">
-    <div class="section-header" data-sr="up">
-      <div class="section-tag">✨ المميزات</div>
-      <h2 class="section-title">لماذا <span class="blue">سوق الحرفيين؟</span></h2>
-      <p class="section-subtitle">صُمِّم خصيصاً للسوق اليمني بمميزات ذكية تجعل تجربتك أسهل وأأمن</p>
+    <div class="sec-head" data-sr="up">
+      <div class="sec-tag">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        المميزات
+      </div>
+      <h2 class="sec-h2">لماذا <span class="c-blue">سوق الحرفيين؟</span></h2>
+      <p class="sec-p">صُمِّم خصيصاً للسوق اليمني بمميزات ذكية تجعل تجربتك أسهل وأأمن</p>
     </div>
-    <div class="features-grid">
-      <div class="feat-card" data-sr="up">
-        <div class="feat-icon blue">🔍</div>
-        <h3 class="feat-title">بحث فوري بالمهنة</h3>
-        <p class="feat-desc">ابحث عن أي حرفي حسب المهنة والمنطقة وشاهد التقييمات والصور في لحظة.</p>
+    <div class="feat-grid">
+
+      <div class="feat-card fc-blue" data-sr="up">
+        <div class="feat-ico blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <h3 class="feat-h">بحث فوري بالمهنة</h3>
+        <p class="feat-p">ابحث عن أي حرفي حسب المهنة والمنطقة وشاهد التقييمات والصور في لحظة.</p>
       </div>
-      <div class="feat-card" data-sr="up" style="transition-delay:.1s">
-        <div class="feat-icon green">✅</div>
-        <h3 class="feat-title">حجز سريع وآمن</h3>
-        <p class="feat-desc">أرسل طلبك وانتظر موافقة الحرفي — رقمك لا يُكشف إلا بعد القبول.</p>
+
+      <div class="feat-card fc-green" data-sr="up" style="transition-delay:.1s">
+        <div class="feat-ico green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+        </div>
+        <h3 class="feat-h">حجز سريع وآمن</h3>
+        <p class="feat-p">أرسل طلبك وانتظر موافقة الحرفي — رقمك لا يُكشف إلا بعد القبول.</p>
       </div>
-      <div class="feat-card" data-sr="up" style="transition-delay:.2s">
-        <div class="feat-icon yellow">⭐</div>
-        <h3 class="feat-title">تقييمات موثوقة</h3>
-        <p class="feat-desc">قيّم الحرفي بعد كل خدمة وساعد الآخرين على اختيار الأفضل.</p>
+
+      <div class="feat-card fc-yellow" data-sr="up" style="transition-delay:.2s">
+        <div class="feat-ico yellow">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h3 class="feat-h">تقييمات موثوقة</h3>
+        <p class="feat-p">قيّم الحرفي بعد كل خدمة وساعد الآخرين على اختيار الأفضل.</p>
       </div>
-      <div class="feat-card" data-sr="up" style="transition-delay:.05s">
-        <div class="feat-icon blue">📷</div>
-        <h3 class="feat-title">معرض الأعمال</h3>
-        <p class="feat-desc">كل حرفي يعرض صور أعماله السابقة حتى تعرف مستوى الجودة قبل الطلب.</p>
+
+      <div class="feat-card fc-blue" data-sr="up" style="transition-delay:.05s">
+        <div class="feat-ico blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <h3 class="feat-h">معرض الأعمال</h3>
+        <p class="feat-p">كل حرفي يعرض صور أعماله السابقة حتى تعرف مستوى الجودة قبل الطلب.</p>
       </div>
-      <div class="feat-card" data-sr="up" style="transition-delay:.15s">
-        <div class="feat-icon green">🔔</div>
-        <h3 class="feat-title">إشعارات لحظية</h3>
-        <p class="feat-desc">تنبيهات فورية عبر FCM عند قبول طلبك أو تغيير حالته.</p>
+
+      <div class="feat-card fc-green" data-sr="up" style="transition-delay:.15s">
+        <div class="feat-ico green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </div>
+        <h3 class="feat-h">إشعارات لحظية</h3>
+        <p class="feat-p">تنبيهات فورية عبر FCM عند قبول طلبك أو تغيير حالته.</p>
       </div>
-      <div class="feat-card" data-sr="up" style="transition-delay:.25s">
-        <div class="feat-icon yellow">🛡️</div>
-        <h3 class="feat-title">تحقق عبر Telegram</h3>
-        <p class="feat-desc">تسجيل دخول آمن بـ OTP عبر Telegram — بدون كلمات مرور معقدة.</p>
+
+      <div class="feat-card fc-yellow" data-sr="up" style="transition-delay:.25s">
+        <div class="feat-ico yellow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+        </div>
+        <h3 class="feat-h">تحقق عبر Telegram</h3>
+        <p class="feat-p">تسجيل دخول آمن بـ OTP عبر Telegram — بدون كلمات مرور معقدة.</p>
       </div>
+
     </div>
   </div>
 </section>
 
-<!-- WAVE -->
-<div class="wave" style="background:var(--white)">
-  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" height="60">
+<!-- wave -->
+<div class="wave-wrap" style="background:var(--white)">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
     <path d="M0,30 C480,70 960,0 1440,35 L1440,60 L0,60 Z" fill="var(--bg)"/>
   </svg>
 </div>
 
-<!-- HOW IT WORKS -->
-<section class="pad how-section" id="how">
+<!-- ══ HOW IT WORKS ══ -->
+<section class="pad how-bg" id="how">
   <div class="container">
-    <div class="section-header" data-sr="up">
-      <div class="section-tag">⚙️ كيف يعمل</div>
-      <h2 class="section-title">ثلاث خطوات <span class="green">فقط</span></h2>
-      <p class="section-subtitle">سواء كنت عميلاً أو حرفياً، العملية بسيطة وسريعة</p>
+    <div class="sec-head" data-sr="up">
+      <div class="sec-tag">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        كيف يعمل
+      </div>
+      <h2 class="sec-h2">ثلاث خطوات <span class="c-green">فقط</span></h2>
+      <p class="sec-p">سواء كنت عميلاً أو حرفياً، العملية بسيطة وسريعة</p>
     </div>
     <div class="how-tabs" data-sr="up">
-      <button class="tab-btn active" onclick="switchTab('client',this)">👤 للعملاء</button>
-      <button class="tab-btn" onclick="switchTab('worker',this)">👷 للحرفيين</button>
+      <button class="tab-btn active" onclick="switchTab('client',this)">
+        <svg style="width:16px;height:16px;vertical-align:middle;margin-left:6px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        للعملاء
+      </button>
+      <button class="tab-btn" onclick="switchTab('worker',this)">
+        <svg style="width:16px;height:16px;vertical-align:middle;margin-left:6px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h20M17 20V8a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v12M12 6V4"/><rect x="9" y="12" width="6" height="8"/></svg>
+        للحرفيين
+      </button>
     </div>
+
     <div id="client-panel" class="how-panel active">
       <div class="steps-grid">
-        <div class="step-card" data-sr="up"><div class="step-num">١</div><span class="step-icon">📱</span><h3 class="step-title">سجّل وابحث</h3><p class="step-desc">أنشئ حسابك بثوانٍ عبر Telegram، ثم ابحث عن الحرفي الذي تريده في منطقتك.</p></div>
-        <div class="step-card" data-sr="up" style="transition-delay:.12s"><div class="step-num">٢</div><span class="step-icon">📤</span><h3 class="step-title">أرسل الطلب</h3><p class="step-desc">اختر الحرفي، اضغط "احجز"، وانتظر قبول الطلب — رقمك سري تماماً.</p></div>
-        <div class="step-card" data-sr="up" style="transition-delay:.24s"><div class="step-num">٣</div><span class="step-icon">🌟</span><h3 class="step-title">قيّم الخدمة</h3><p class="step-desc">بعد انتهاء العمل، قيّم الحرفي وساعد المجتمع على اختيار الأفضل.</p></div>
+        <div class="step-card" data-sr="up">
+          <div class="step-num">١</div>
+          <div class="step-ico blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          </div>
+          <h3 class="step-h">سجّل وابحث</h3>
+          <p class="step-p">أنشئ حسابك بثوانٍ عبر Telegram، ثم ابحث عن الحرفي الذي تريده في منطقتك.</p>
+        </div>
+        <div class="step-card" data-sr="up" style="transition-delay:.12s">
+          <div class="step-num">٢</div>
+          <div class="step-ico blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </div>
+          <h3 class="step-h">أرسل الطلب</h3>
+          <p class="step-p">اختر الحرفي، اضغط "احجز"، وانتظر قبول الطلب — رقمك سري تماماً.</p>
+        </div>
+        <div class="step-card" data-sr="up" style="transition-delay:.24s">
+          <div class="step-num">٣</div>
+          <div class="step-ico blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3 class="step-h">قيّم الخدمة</h3>
+          <p class="step-p">بعد انتهاء العمل، قيّم الحرفي وساعد المجتمع على اختيار الأفضل.</p>
+        </div>
       </div>
     </div>
+
     <div id="worker-panel" class="how-panel">
       <div class="steps-grid">
-        <div class="step-card green" data-sr="up"><div class="step-num">١</div><span class="step-icon">🪪</span><h3 class="step-title">أنشئ ملفك</h3><p class="step-desc">سجّل كحرفي، أضف مهنتك ومنطقتك وصور أعمالك لتظهر للعملاء.</p></div>
-        <div class="step-card green" data-sr="up" style="transition-delay:.12s"><div class="step-num">٢</div><span class="step-icon">📥</span><h3 class="step-title">استقبل الطلبات</h3><p class="step-desc">تصلك الطلبات فوراً، قبل أو ارفض بضغطة، وتواصل مع العميل مباشرة.</p></div>
-        <div class="step-card green" data-sr="up" style="transition-delay:.24s"><div class="step-num">٣</div><span class="step-icon">📈</span><h3 class="step-title">ابنِ سمعتك</h3><p class="step-desc">كل تقييم إيجابي يرفع ترتيبك في نتائج البحث ويجلب لك المزيد من العملاء.</p></div>
+        <div class="step-card" data-sr="up">
+          <div class="step-num green">١</div>
+          <div class="step-ico green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <h3 class="step-h">أنشئ ملفك</h3>
+          <p class="step-p">سجّل كحرفي، أضف مهنتك ومنطقتك وصور أعمالك لتظهر للعملاء.</p>
+        </div>
+        <div class="step-card" data-sr="up" style="transition-delay:.12s">
+          <div class="step-num green">٢</div>
+          <div class="step-ico green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 13 21 11 3 8 12 2 12"/></svg>
+          </div>
+          <h3 class="step-h">استقبل الطلبات</h3>
+          <p class="step-p">تصلك الطلبات فوراً، قبل أو ارفض بضغطة، وتواصل مع العميل مباشرة.</p>
+        </div>
+        <div class="step-card" data-sr="up" style="transition-delay:.24s">
+          <div class="step-num green">٣</div>
+          <div class="step-ico green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <h3 class="step-h">ابنِ سمعتك</h3>
+          <p class="step-p">كل تقييم إيجابي يرفع ترتيبك في نتائج البحث ويجلب المزيد من العملاء.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SCREENS CAROUSEL -->
-<section class="pad screens-section" id="screens">
+<!-- ══ SCREENS CAROUSEL ══ -->
+<section class="pad scr-bg" id="screens">
   <div class="container">
-    <div class="section-header" data-sr="up">
-      <div class="section-tag">📱 من داخل التطبيق</div>
-      <h2 class="section-title">شاشات <span class="blue">أنيقة وسهلة</span></h2>
-      <p class="section-subtitle">تجربة مستخدم عربية بالكامل، مصممة لتكون بسيطة وسريعة</p>
+    <div class="sec-head" data-sr="up">
+      <div class="sec-tag">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        من داخل التطبيق
+      </div>
+      <h2 class="sec-h2">شاشات <span class="c-blue">أنيقة وسهلة</span></h2>
+      <p class="sec-p">تجربة مستخدم عربية بالكامل، مصممة لتكون بسيطة وسريعة</p>
     </div>
+
     <div class="carousel-outer" data-sr="up">
-      <div class="carousel-viewport">
-        <div class="screens-track" id="screensTrack">
+      <div class="carousel-vp">
+        <div class="scr-track" id="scrTrack">
 
-          <div class="screen-item" data-idx="0">
-            <div class="screen-phone">
-              <img src="ss3.png" alt="Onboarding" onerror="this.parentElement.style.background='var(--bg2)'"/>
-            </div>
-            <span class="screen-label">شاشة البداية ★</span>
+          <div class="scr-item" data-i="0">
+            <div class="scr-phone"><img src="ss3.png" alt="Onboarding" onerror="this.parentElement.style.background='var(--bg)'"/></div>
+            <span class="scr-lbl">شاشة البداية ★</span>
           </div>
 
-          <div class="screen-item s-dim" data-idx="1">
-            <div class="screen-phone">
-              <img src="ss1.png" alt="شاشة ١" onerror="this.style.display='none';buildWorkerScreen(this.parentElement)"/>
-            </div>
-            <span class="screen-label">ملف الحرفي</span>
+          <div class="scr-item dim" data-i="1">
+            <div class="scr-phone"><img src="ss1.png" alt="ملف الحرفي" onerror="this.style.display='none';buildWorker(this.parentElement)"/></div>
+            <span class="scr-lbl">ملف الحرفي</span>
           </div>
 
-          <div class="screen-item s-dim" data-idx="2">
-            <div class="screen-phone">
-              <img src="ss2.png" alt="شاشة ٢" onerror="this.style.display='none';buildRequestScreen(this.parentElement)"/>
-            </div>
-            <span class="screen-label">طلباتي</span>
+          <div class="scr-item dim" data-i="2">
+            <div class="scr-phone"><img src="ss2.png" alt="طلباتي" onerror="this.style.display='none';buildReqs(this.parentElement)"/></div>
+            <span class="scr-lbl">طلباتي</span>
           </div>
 
-          <div class="screen-item s-dim" data-idx="3">
-            <div class="screen-phone">
+          <div class="scr-item dim" data-i="3">
+            <div class="scr-phone">
               <div class="sp-inner">
-                <img src="logo.png" style="width:54px;height:54px;object-fit:contain;margin-bottom:6px" onerror="this.style.display='none'"/>
+                <img src="logo.png" style="width:52px;height:52px;object-fit:contain;margin-bottom:6px" onerror="this.style.display='none'"/>
                 <div style="font-size:.78rem;font-weight:900;margin-bottom:14px;color:var(--dark)">سوق الحرفيين</div>
                 <div style="font-size:.65rem;color:var(--muted);margin-bottom:8px;width:100%">رقم الهاتف</div>
-                <div style="width:100%;background:var(--bg);border-radius:10px;padding:8px 10px;font-size:.72rem;margin-bottom:12px;border:1.5px solid rgba(25,118,210,.2);color:var(--blue)">٧٧٧ ٠٠٠ ٠٠٠</div>
-                <div class="otp-box">
-                  <div class="otp-digit">٥</div><div class="otp-digit">٣</div><div class="otp-digit">٨</div><div class="otp-digit">٢</div>
-                </div>
-                <div class="mini-btn-w" style="margin-top:18px">تحقق عبر Telegram</div>
+                <div style="width:100%;background:var(--bg);border-radius:10px;padding:8px 10px;font-size:.72rem;border:1.5px solid rgba(21,101,192,.2);color:var(--blue);margin-bottom:12px">٧٧٧ ٠٠٠ ٠٠٠</div>
+                <div class="otp-row"><div class="otp-d">٥</div><div class="otp-d">٣</div><div class="otp-d">٨</div><div class="otp-d">٢</div></div>
+                <div class="m-btn" style="margin-top:18px">تحقق عبر Telegram</div>
               </div>
             </div>
-            <span class="screen-label">تسجيل الدخول</span>
+            <span class="scr-lbl">تسجيل الدخول</span>
           </div>
 
         </div>
       </div>
-      <div class="carousel-nav">
-        <button class="car-btn" id="prevBtn" onclick="slideCarousel(-1)" disabled>❮</button>
-        <div class="cdots" id="cdots">
-          <button class="cdot active" onclick="goSlide(0)"></button>
-          <button class="cdot" onclick="goSlide(1)"></button>
-          <button class="cdot" onclick="goSlide(2)"></button>
-          <button class="cdot" onclick="goSlide(3)"></button>
+      <div class="car-nav">
+        <button class="car-btn" id="prevBtn" onclick="slideC(-1)" disabled>❮</button>
+        <div class="c-dots">
+          <button class="c-dot on" onclick="goC(0)"></button>
+          <button class="c-dot" onclick="goC(1)"></button>
+          <button class="c-dot" onclick="goC(2)"></button>
+          <button class="c-dot" onclick="goC(3)"></button>
         </div>
-        <button class="car-btn" id="nextBtn" onclick="slideCarousel(1)">❯</button>
+        <button class="car-btn" id="nextBtn" onclick="slideC(1)">❯</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- DOWNLOAD CTA -->
-<section class="cta-section" id="download">
+<!-- ══ DOWNLOAD ══ -->
+<section class="cta-bg" id="download">
   <div class="container">
     <div class="cta-box" data-sr="scale">
       <img src="logo.png" alt="BeeHive" class="cta-logo" onerror="this.style.display='none'"/>
-      <h2 class="cta-title">حمّل التطبيق الآن 🐝</h2>
-      <p class="cta-subtitle">ابدأ في إيجاد أفضل الحرفيين في منطقتك مجاناً<br/>متاح الآن لـ Android، iOS وGoogle Play قريباً</p>
+      <h2 class="cta-h">حمّل التطبيق الآن 🐝</h2>
+      <p class="cta-p">ابدأ في إيجاد أفضل الحرفيين في منطقتك مجاناً<br/>متاح الآن لـ Android — iOS وGoogle Play قريباً</p>
       <div class="cta-btns">
-        <a href="app-release.apk" class="store-btn primary-store" download>
-          <span class="store-icon">🤖</span>
-          <div class="store-text"><div class="store-sub">تحميل مباشر</div><div class="store-name">Android APK</div></div>
+        <a href="app-release.apk" class="store-btn main" download>
+          <span class="s-ico">🤖</span>
+          <div class="s-txt"><div class="s-sub">تحميل مباشر</div><div class="s-name">Android APK</div></div>
         </a>
         <a href="#" class="store-btn">
-          <span class="store-icon">🍎</span>
-          <div class="store-text"><div class="store-sub">قريباً</div><div class="store-name">App Store</div></div>
+          <span class="s-ico">🍎</span>
+          <div class="s-txt"><div class="s-sub">قريباً</div><div class="s-name">App Store</div></div>
         </a>
         <a href="#" class="store-btn">
-          <span class="store-icon">▶</span>
-          <div class="store-text"><div class="store-sub">قريباً</div><div class="store-name">Google Play</div></div>
+          <span class="s-ico">▶</span>
+          <div class="s-txt"><div class="s-sub">قريباً</div><div class="s-name">Google Play</div></div>
         </a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
-<section class="pad contact-section" id="contact">
+<!-- ══ CONTACT ══ -->
+<section class="pad con-bg" id="contact">
   <div class="container">
-    <div class="section-header" data-sr="up">
-      <div class="section-tag">📞 تواصل معنا</div>
-      <h2 class="section-title">نحن <span class="blue">هنا لمساعدتك</span></h2>
-      <p class="section-subtitle">فريقنا جاهز على مدار الساعة — تواصل عبر أي قناة تناسبك</p>
+    <div class="sec-head" data-sr="up">
+      <div class="sec-tag">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+        تواصل معنا
+      </div>
+      <h2 class="sec-h2">نحن <span class="c-blue">هنا لمساعدتك</span></h2>
+      <p class="sec-p">فريقنا جاهز على مدار الساعة — تواصل عبر أي قناة تناسبك</p>
     </div>
-    <div class="contact-grid">
-      <a href="https://wa.me/966537759626" target="_blank" class="contact-card" data-sr="up">
-        <div class="contact-icon" style="background:#E8F5E9">💬</div>
-        <div class="contact-label">WhatsApp</div>
-        <div class="contact-value">+966 537 759 626</div>
+    <div class="con-grid">
+      <a href="https://wa.me/966537759626" target="_blank" class="con-card" data-sr="up">
+        <div class="con-ico" style="background:#E8F5E9"><svg viewBox="0 0 24 24" fill="#2E7D32"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></div>
+        <div class="con-lbl">WhatsApp</div>
+        <div class="con-val">+966 537 759 626</div>
       </a>
-      <a href="tel:+966537759626" class="contact-card" data-sr="up" style="transition-delay:.08s">
-        <div class="contact-icon" style="background:#E3F2FD">📞</div>
-        <div class="contact-label">هاتف — السعودية</div>
-        <div class="contact-value">+966 537 759 626</div>
+      <a href="tel:+966537759626" class="con-card" data-sr="up" style="transition-delay:.08s">
+        <div class="con-ico" style="background:#E3F2FD"><svg viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg></div>
+        <div class="con-lbl">هاتف — السعودية</div>
+        <div class="con-val">+966 537 759 626</div>
       </a>
-      <a href="tel:+967777182233" class="contact-card" data-sr="up" style="transition-delay:.16s">
-        <div class="contact-icon" style="background:#E3F2FD">📞</div>
-        <div class="contact-label">هاتف — اليمن</div>
-        <div class="contact-value">+967 777 182 233</div>
+      <a href="tel:+967777182233" class="con-card" data-sr="up" style="transition-delay:.16s">
+        <div class="con-ico" style="background:#E3F2FD"><svg viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg></div>
+        <div class="con-lbl">هاتف — اليمن</div>
+        <div class="con-val">+967 777 182 233</div>
       </a>
-      <a href="mailto:h@aldioli.us" class="contact-card" data-sr="up" style="transition-delay:.24s">
-        <div class="contact-icon" style="background:#EDE7F6">✉️</div>
-        <div class="contact-label">البريد الإلكتروني</div>
-        <div class="contact-value">h@aldioli.us</div>
+      <a href="mailto:h@aldioli.us" class="con-card" data-sr="up" style="transition-delay:.24s">
+        <div class="con-ico" style="background:#EDE7F6"><svg viewBox="0 0 24 24" fill="none" stroke="#6A1B9A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <div class="con-lbl">البريد الإلكتروني</div>
+        <div class="con-val">h@aldioli.us</div>
       </a>
-      <a href="https://t.me/Alawlaqi_AI_bot" target="_blank" class="contact-card" data-sr="up" style="transition-delay:.32s">
-        <div class="contact-icon" style="background:#E1F5FE">✈️</div>
-        <div class="contact-label">بوت Telegram الذكي</div>
-        <div class="contact-value">@Alawlaqi_AI_bot</div>
+      <a href="https://t.me/Alawlaqi_AI_bot" target="_blank" class="con-card" data-sr="up" style="transition-delay:.32s">
+        <div class="con-ico" style="background:#E1F5FE"><svg viewBox="0 0 24 24" fill="#0288D1"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></div>
+        <div class="con-lbl">بوت Telegram الذكي</div>
+        <div class="con-val">@Alawlaqi_AI_bot</div>
       </a>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ══ FOOTER ══ -->
 <footer>
   <div class="container">
-    <div class="footer-inner">
+    <div class="ft-grid">
       <div>
-        <a href="#" class="footer-brand">
-          <img src="logo.png" alt="BeeHive" onerror="this.style.display='none'"/>
-          سوق <span>الحرفيين</span>
-        </a>
-        <p class="footer-desc">منصة ذكية تربط العملاء بأمهر الحرفيين في اليمن بضغطة واحدة، آمنة وموثوقة.</p>
+        <a href="#" class="ft-brand"><img src="logo.png" onerror="this.style.display='none'"/>سوق <span>الحرفيين</span></a>
+        <p class="ft-desc">منصة ذكية تربط العملاء بأمهر الحرفيين في اليمن بضغطة واحدة، آمنة وموثوقة.</p>
       </div>
-      <div class="footer-col">
-        <h4>الموقع</h4>
-        <ul>
-          <li><a href="#features">المميزات</a></li>
-          <li><a href="#how">كيف يعمل</a></li>
-          <li><a href="#screens">الشاشات</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>تواصل</h4>
-        <ul>
-          <li><a href="https://wa.me/966537759626" target="_blank">WhatsApp</a></li>
-          <li><a href="mailto:h@aldioli.us">البريد الإلكتروني</a></li>
-          <li><a href="https://t.me/Alawlaqi_AI_bot" target="_blank">Telegram Bot</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>التطبيق</h4>
-        <ul>
-          <li><a href="app-release.apk" download>تحميل Android</a></li>
-          <li><a href="#">App Store — قريباً</a></li>
-          <li><a href="#">Google Play — قريباً</a></li>
-        </ul>
-      </div>
+      <div class="ft-col"><h4>الموقع</h4><ul><li><a href="#features">المميزات</a></li><li><a href="#how">كيف يعمل</a></li><li><a href="#screens">الشاشات</a></li></ul></div>
+      <div class="ft-col"><h4>تواصل</h4><ul><li><a href="https://wa.me/966537759626">WhatsApp</a></li><li><a href="mailto:h@aldioli.us">البريد</a></li><li><a href="https://t.me/Alawlaqi_AI_bot">Telegram Bot</a></li></ul></div>
+      <div class="ft-col"><h4>التطبيق</h4><ul><li><a href="app-release.apk" download>Android APK</a></li><li><a href="#">App Store قريباً</a></li><li><a href="#">Google Play قريباً</a></li></ul></div>
     </div>
-    <div class="footer-bottom">
-      <span class="footer-copy">© ٢٠٢٦ سوق الحرفيين · BeeHive. جميع الحقوق محفوظة.</span>
-      <span class="footer-love">صُنع بـ <span>♥</span> لليمن</span>
+    <div class="ft-bottom">
+      <span class="ft-copy">© ٢٠٢٦ سوق الحرفيين · BeeHive. جميع الحقوق محفوظة.</span>
+      <span class="ft-love">صُنع بـ <span>♥</span> لليمن</span>
     </div>
   </div>
 </footer>
 
 <script>
-/* ===== NAV ===== */
+/* ═══════════════════════════════════════════════
+   HERO CANVAS — animated hexagon particle field
+   (similar to kuraimibank-style animated BG)
+═══════════════════════════════════════════════ */
+(function(){
+  const canvas = document.getElementById('heroBg');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], hexCells = [];
+
+  const COLORS = [
+    'rgba(21,101,192,',   // blue
+    'rgba(46,125,50,',    // green
+    'rgba(249,168,37,',   // yellow
+    'rgba(66,165,245,',   // light blue
+  ];
+
+  function resize(){
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+    init();
+  }
+
+  /* ── Hexagon cells (background grid) ── */
+  function hexPath(cx, cy, r, ctx){
+    ctx.beginPath();
+    for(let i=0;i<6;i++){
+      const a = (Math.PI/3)*i - Math.PI/6;
+      i===0 ? ctx.moveTo(cx+r*Math.cos(a), cy+r*Math.sin(a))
+             : ctx.lineTo(cx+r*Math.cos(a), cy+r*Math.sin(a));
+    }
+    ctx.closePath();
+  }
+
+  function init(){
+    particles = [];
+    hexCells = [];
+
+    /* scattered floating hexagons */
+    const n = Math.floor(W*H/14000);
+    for(let i=0;i<n;i++){
+      const color = COLORS[Math.floor(Math.random()*COLORS.length)];
+      particles.push({
+        x: Math.random()*W,
+        y: Math.random()*H,
+        r: Math.random()*22+8,
+        vx: (Math.random()-.5)*.4,
+        vy: (Math.random()-.5)*.4,
+        rot: Math.random()*Math.PI*2,
+        vr: (Math.random()-.5)*.012,
+        alpha: Math.random()*.18+.04,
+        color,
+        pulse: Math.random()*Math.PI*2,
+        pulseSpeed: Math.random()*.02+.01
+      });
+    }
+
+    /* small dot particles */
+    const nd = Math.floor(W*H/8000);
+    for(let i=0;i<nd;i++){
+      const color = COLORS[Math.floor(Math.random()*COLORS.length)];
+      particles.push({
+        dot:true,
+        x: Math.random()*W,
+        y: Math.random()*H,
+        r: Math.random()*2.5+.8,
+        vx: (Math.random()-.5)*.5,
+        vy: (Math.random()-.5)*.5,
+        alpha: Math.random()*.35+.08,
+        color,
+        pulse: Math.random()*Math.PI*2,
+        pulseSpeed: Math.random()*.025+.008
+      });
+    }
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+
+    /* draw & connect dots */
+    const dots = particles.filter(p=>p.dot);
+    dots.forEach(p=>{
+      p.pulse += p.pulseSpeed;
+      const a = p.alpha*(0.7+0.3*Math.sin(p.pulse));
+      p.x += p.vx; p.y += p.vy;
+      if(p.x<-20)p.x=W+20; if(p.x>W+20)p.x=-20;
+      if(p.y<-20)p.y=H+20; if(p.y>H+20)p.y=-20;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle = p.color+a+')';
+      ctx.fill();
+    });
+
+    /* connecting lines between nearby dots */
+    for(let i=0;i<dots.length;i++){
+      for(let j=i+1;j<dots.length;j++){
+        const dx=dots[i].x-dots[j].x, dy=dots[i].y-dots[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<130){
+          ctx.beginPath();
+          ctx.moveTo(dots[i].x,dots[i].y);
+          ctx.lineTo(dots[j].x,dots[j].y);
+          const alpha = .06*(1-d/130);
+          ctx.strokeStyle=`rgba(21,101,192,${alpha})`;
+          ctx.lineWidth=.7;
+          ctx.stroke();
+        }
+      }
+    }
+
+    /* draw floating hexagons */
+    const hexs = particles.filter(p=>!p.dot);
+    hexs.forEach(p=>{
+      p.pulse += p.pulseSpeed;
+      const a = p.alpha*(0.6+0.4*Math.sin(p.pulse));
+      p.x += p.vx; p.y += p.vy;
+      p.rot += p.vr;
+      if(p.x<-60)p.x=W+60; if(p.x>W+60)p.x=-60;
+      if(p.y<-60)p.y=H+60; if(p.y>H+60)p.y=-60;
+
+      ctx.save();
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.rot);
+      hexPath(0,0,p.r,ctx);
+      ctx.strokeStyle = p.color+Math.min(a*2,.25)+')';
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+      ctx.fillStyle = p.color+a+')';
+      ctx.fill();
+      ctx.restore();
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  resize(); draw();
+})();
+
+/* ═══ NAV ═══ */
 function toggleMenu(){document.getElementById('mobMenu').classList.toggle('open')}
 document.addEventListener('click',e=>{
   if(!e.target.closest('nav')&&!e.target.closest('.mob-menu'))
     document.getElementById('mobMenu').classList.remove('open');
 });
 window.addEventListener('scroll',()=>{
-  document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>40);
-},{ passive:true });
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>40);
+},{passive:true});
 
-/* ===== SCROLL REVEAL ===== */
-const srObs=new IntersectionObserver(entries=>{
+/* ═══ SCROLL REVEAL ═══ */
+const srObs = new IntersectionObserver(entries=>{
   entries.forEach(e=>{
-    if(e.isIntersecting){e.target.classList.add('sr-ok');srObs.unobserve(e.target)}
+    if(e.isIntersecting){e.target.classList.add('on');srObs.unobserve(e.target)}
   });
-},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+},{threshold:.09,rootMargin:'0px 0px -50px 0px'});
 document.querySelectorAll('[data-sr]').forEach(el=>srObs.observe(el));
 
-/* ===== COUNTER ANIMATION ===== */
+/* ═══ COUNTER ═══ */
 function toAR(n){return String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d])}
 function animCount(el){
-  const isD=!!el.dataset.countDec;
+  const isDec=!!el.dataset.countDec;
   const target=parseFloat(el.dataset.count||el.dataset.countDec);
-  const dur=1600;const t0=performance.now();
-  function tick(now){
+  const dur=1700;const t0=performance.now();
+  (function tick(now){
     const p=Math.min((now-t0)/dur,1);
-    const e2=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
-    el.textContent=isD?(e2*target).toFixed(1)+'★':toAR(Math.round(e2*target));
+    const e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+    el.textContent=isDec?(e*target).toFixed(1):toAR(Math.round(e*target));
     if(p<1)requestAnimationFrame(tick);
-    else el.textContent=isD?target+'★':toAR(target);
-  }
-  requestAnimationFrame(tick);
+    else el.textContent=isDec?target:toAR(target);
+  })(t0);
 }
 const cObs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
@@ -864,9 +992,9 @@ const cObs=new IntersectionObserver(entries=>{
     }
   });
 },{threshold:.3});
-document.querySelectorAll('.numbers-band,.hero-text').forEach(el=>cObs.observe(el));
+document.querySelectorAll('.num-band,.hero-text').forEach(el=>cObs.observe(el));
 
-/* ===== TABS ===== */
+/* ═══ TABS ═══ */
 function switchTab(tab,btn){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.how-panel').forEach(p=>p.classList.remove('active'));
@@ -874,21 +1002,21 @@ function switchTab(tab,btn){
   document.getElementById(tab+'-panel').classList.add('active');
 }
 
-/* ===== CAROUSEL ===== */
+/* ═══ CAROUSEL ═══ */
 const IW=180,GAP=24,TOT=4;
 let ci=0,aid=null;
 function vis(){return window.innerWidth>700?3:window.innerWidth>480?2:1}
 function maxI(){return TOT-vis()}
 function applyC(){
-  const t=document.getElementById('screensTrack');
+  const t=document.getElementById('scrTrack');
   t.style.transform=`translateX(-${ci*(IW+GAP)}px)`;
-  t.querySelectorAll('.screen-item').forEach((s,i)=>s.classList.toggle('s-dim',i<ci||i>=ci+vis()));
-  document.querySelectorAll('.cdot').forEach((d,i)=>d.classList.toggle('active',i===ci));
+  t.querySelectorAll('.scr-item').forEach((s,i)=>s.classList.toggle('dim',i<ci||i>=ci+vis()));
+  document.querySelectorAll('.c-dot').forEach((d,i)=>d.classList.toggle('on',i===ci));
   document.getElementById('prevBtn').disabled=ci<=0;
   document.getElementById('nextBtn').disabled=ci>=maxI();
 }
-function slideCarousel(d){ci=Math.min(Math.max(ci+d,0),maxI());applyC()}
-function goSlide(n){ci=Math.min(Math.max(n,0),maxI());applyC()}
+function slideC(d){ci=Math.min(Math.max(ci+d,0),maxI());applyC()}
+function goC(n){ci=Math.min(Math.max(n,0),maxI());applyC()}
 function startAuto(){aid=setInterval(()=>{ci=ci>=maxI()?0:ci+1;applyC()},4200)}
 function stopAuto(){clearInterval(aid)}
 const cel=document.querySelector('.carousel-outer');
@@ -896,32 +1024,46 @@ cel.addEventListener('mouseenter',stopAuto);
 cel.addEventListener('mouseleave',startAuto);
 let tx=null;
 cel.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
-cel.addEventListener('touchend',e=>{if(tx===null)return;if(Math.abs(tx-e.changedTouches[0].clientX)>40)slideCarousel(tx>e.changedTouches[0].clientX?1:-1);tx=null});
+cel.addEventListener('touchend',e=>{if(tx===null)return;Math.abs(tx-e.changedTouches[0].clientX)>40&&slideC(tx>e.changedTouches[0].clientX?1:-1);tx=null});
 window.addEventListener('resize',applyC);
 applyC();startAuto();
 
-/* ===== CSS FALLBACK SCREENS ===== */
-function buildWorkerScreen(p){
-  p.style.padding='18px 12px';p.style.display='flex';p.style.flexDirection='column';p.style.alignItems='center';p.style.gap='10px';
+/* ═══ CSS FALLBACK PHONE SCREENS ═══ */
+function buildWorker(p){
+  p.style.cssText='padding:18px 12px;display:flex;flex-direction:column;align-items:center;gap:9px;background:#fff';
   p.innerHTML=`
-    <div style="width:100%;height:80px;background:linear-gradient(135deg,rgba(25,118,210,.12),rgba(25,118,210,.04));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin-bottom:6px">👷</div>
-    <div style="font-size:.78rem;font-weight:700;margin-bottom:2px;color:var(--dark)">أحمد المهندس</div>
-    <div style="font-size:.68rem;color:var(--muted);margin-bottom:6px">كهربائي · صنعاء</div>
-    <div style="color:#F9A825;font-size:.78rem;margin-bottom:10px">★★★★★ ٤.٩</div>
-    <div style="display:flex;gap:4px">
-      <div style="width:44px;height:44px;background:var(--blue-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.95rem">🔌</div>
-      <div style="width:44px;height:44px;background:var(--green-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.95rem">💡</div>
-      <div style="width:44px;height:44px;background:#FFFDE7;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.95rem">🏗️</div>
+    <div style="width:100%;height:76px;background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:4px">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="1.5" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
     </div>
-    <div class="mini-btn-w" style="margin-top:auto">📤 طلب الخدمة</div>`;
+    <div style="font-size:.78rem;font-weight:700;color:var(--dark)">أحمد المهندس</div>
+    <div style="font-size:.68rem;color:var(--muted)">كهربائي · صنعاء</div>
+    <div style="color:#F9A825;font-size:.75rem">★★★★★ ٤.٩</div>
+    <div style="display:flex;gap:5px;margin-top:4px">
+      <div style="width:44px;height:44px;background:#E3F2FD;border-radius:10px;display:flex;align-items:center;justify-content:center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+      </div>
+      <div style="width:44px;height:44px;background:#E8F5E9;border-radius:10px;display:flex;align-items:center;justify-content:center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div style="width:44px;height:44px;background:#FFFDE7;border-radius:10px;display:flex;align-items:center;justify-content:center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F9A825" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+    </div>
+    <div class="m-btn" style="margin-top:auto">طلب الخدمة</div>`;
 }
-function buildRequestScreen(p){
-  p.style.padding='18px 12px';p.style.display='flex';p.style.flexDirection='column';p.style.alignItems='center';p.style.gap='8px';
+function buildReqs(p){
+  p.style.cssText='padding:18px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;background:#fff';
   p.innerHTML=`
-    <div style="font-size:.82rem;font-weight:700;margin-bottom:6px;width:100%;color:var(--dark)">طلباتي</div>
-    <div class="mini-card" style="border:1.5px solid rgba(67,160,71,.3)"><div class="mini-dot" style="background:var(--green-light)">✅</div><div class="mini-lines"><div class="mini-line green-l"></div><div class="mini-line short"></div></div><div style="font-size:.57rem;color:var(--green);font-weight:700">مقبول</div></div>
-    <div class="mini-card" style="border:1.5px solid rgba(25,118,210,.25)"><div class="mini-dot" style="background:var(--blue-light)">⏳</div><div class="mini-lines"><div class="mini-line blue-l"></div><div class="mini-line short"></div></div><div style="font-size:.57rem;color:var(--blue);font-weight:700">منتظر</div></div>
-    <div class="mini-card" style="opacity:.5"><div class="mini-dot" style="background:var(--bg)">📋</div><div class="mini-lines"><div class="mini-line"></div><div class="mini-line short"></div></div><div style="font-size:.57rem;color:var(--muted);font-weight:700">منتهي</div></div>`;
+    <div style="font-size:.82rem;font-weight:700;width:100%;color:var(--dark);margin-bottom:4px">طلباتي</div>
+    <div class="m-card" style="border:1.5px solid rgba(46,125,50,.3)"><div class="m-dot" style="background:#E8F5E9">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+    </div><div class="m-lines"><div class="m-line g"></div><div class="m-line s"></div></div><div style="font-size:.57rem;color:var(--green2);font-weight:700">مقبول</div></div>
+    <div class="m-card" style="border:1.5px solid rgba(21,101,192,.25)"><div class="m-dot" style="background:#E3F2FD">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    </div><div class="m-lines"><div class="m-line b"></div><div class="m-line s"></div></div><div style="font-size:.57rem;color:var(--blue);font-weight:700">منتظر</div></div>
+    <div class="m-card" style="opacity:.45"><div class="m-dot" style="background:var(--bg)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><polyline points="3 12 7 12 10 18 14 6 17 12 21 12"/></svg>
+    </div><div class="m-lines"><div class="m-line"></div><div class="m-line s"></div></div><div style="font-size:.57rem;color:var(--muted);font-weight:700">منتهي</div></div>`;
 }
 </script>
 </body>
